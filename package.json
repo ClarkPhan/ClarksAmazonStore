@@ -1,0 +1,28 @@
+{
+  "name": "clarks-amazon-store",
+  "version": "1.0.0",
+  "description": "Amazon clone using Node.js and mySQL",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClarkPhan/ClarksAmazonStore.git"
+  },
+  "keywords": [
+    "amazon",
+    "store",
+    "clone"
+  ],
+  "author": "Clark Phan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClarkPhan/ClarksAmazonStore/issues"
+  },
+  "homepage": "https://github.com/ClarkPhan/ClarksAmazonStore#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "inquirer": "^4.0.2"
+  }
+}
