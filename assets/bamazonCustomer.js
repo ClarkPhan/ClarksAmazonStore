@@ -12,9 +12,6 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log('connected');
-  console.log('-------------------------------------');
-  queryData();
 });
 
 function queryData() {
@@ -29,3 +26,7 @@ function queryData() {
     }
   })
 }
+
+module.exports = {
+  queryData: queryData
+} 
