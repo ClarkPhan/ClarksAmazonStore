@@ -4,7 +4,7 @@ var inquirer = require('inquirer');
 // Import customer database
 var bamazonCustomer = require('./bamazonCustomer.js');
 
-function prompt(){
+function prompt() {
   inquirer.prompt([
     {
       type: 'input',
@@ -15,6 +15,7 @@ function prompt(){
       }
     }
   ]).then(function(res) {
+    bamazonCustomer.selectProduct(parseInt(res.product_id));
   });
 }
 
