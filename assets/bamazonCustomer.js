@@ -30,15 +30,13 @@ function queryData() {
 // Print out product info
 function print(res) {
   for (var i = 0; i < res.length; i++) {
-    for (var i = 0; i < res.length; i++) {
-      console.log('-------------------------------------');
-      console.log('Item: ' + res[i].item_id);
-      console.log('Stock: ' + res[i].stock_quantity.toString().magenta);
-      console.log('Price: ' + res[i].price.toString().green);
-      console.log('Product: ' + res[i].product_name.red);
-      console.log('Department: ' + res[i].department_name.cyan);
-      console.log('-------------------------------------');
-    }
+    console.log('-------------------------------------');
+    console.log('Item: ' + res[i].item_id);
+    console.log('Stock: ' + res[i].stock_quantity.toString().magenta);
+    console.log('Price: ' + res[i].price.toString().green);
+    console.log('Product: ' + res[i].product_name.red);
+    console.log('Department: ' + res[i].department_name.cyan);
+    console.log('-------------------------------------');
   }
 }
 
@@ -46,6 +44,7 @@ function print(res) {
 function selectProduct(id) {
   connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err,res) {
     print(res);
+    return res;
   })
 }
 
@@ -53,7 +52,7 @@ function selectProduct(id) {
 // Updates current product stock by
 function updateCurrentProduct(item, amount) {
   var query = 'UPDATE products SET stock_quantity = stock_quantity -' 
-  + '\'' + amount + '\'' + 'WHERE product_name = ?';
+  + '\'' + amount + '\'' + 'WHERE item_id = ?';
   connection.query(query, [item], 
   function(err, res) {
     if (err) throw err;

@@ -23,7 +23,8 @@ function prompt() {
       }
     }
   ]).then(function(res) {
-    bamazonCustomer.selectProduct(parseInt(res.product_id));
+    // Decrement product by amount bought
+    bamazonCustomer.updateCurrentProduct(res.product_id, res.units);
   });
 }
 
