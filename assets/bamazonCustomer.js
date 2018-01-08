@@ -41,16 +41,34 @@ function print(res) {
 }
 
 // Print out specific product
-function selectProduct(id) {
-  connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err,res) {
+function getStockQuantity(id) {
+  connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err, res) {
+    // Get stock quantity
+    var stock_quantity = res[0].stock_quantity;
+    if (stock_quantity > 0) {
+      return res[0].stock_quantity;
+    } else {
+      console.log("Product out of stock!".red);
+    }
+  })
+}
+
+// Print out specific product info
+function getItemInfo(id) {
+  connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err, res) {
+    // Get stock quantity
     print(res);
-    return res;
   })
 }
 
 
 // Updates current product stock by
 function updateCurrentProduct(item, amount) {
+  var stock_quantity = getStockQuantity(item);
+  if (amount > stock_quantity) {
+    console.log("Insufficient Stock quantity!".red);
+    console.log("Stock available: " + stock_quantity);
+  }
   var query = 'UPDATE products SET stock_quantity = stock_quantity -' 
   + '\'' + amount + '\'' + 'WHERE item_id = ?';
   connection.query(query, [item], 
@@ -62,6 +80,7 @@ function updateCurrentProduct(item, amount) {
 //Export functions
 module.exports = {
   queryData: queryData,
-  selectProduct: selectProduct,
-  updateCurrentProduct:updateCurrentProduct
+  getStockQuantity: getStockQuantity,
+  getItemInfo: getItemInfo,
+  updateCurrentProduct: updateCurrentProduct
 } 
