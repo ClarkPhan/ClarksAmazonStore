@@ -7,6 +7,7 @@ var color = require('colors');
 // Read and set environment variables
 var dotenv = require("dotenv").config();
 
+// Create connection to database
 var connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
@@ -15,6 +16,7 @@ var connection = mysql.createConnection({
   database: 'bamazon'
 });
 
+// Connect to database
 connection.connect(function(err) {
   if (err) throw err;
 });
@@ -25,6 +27,7 @@ function queryData() {
   })
 }
 
+// Print out product info
 function print(res) {
   for (var i = 0; i < res.length; i++) {
     for (var i = 0; i < res.length; i++) {
@@ -39,13 +42,27 @@ function print(res) {
   }
 }
 
+// Print out specific product
 function selectProduct(id) {
   connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err,res) {
     print(res);
   })
 }
 
+
+// Updates current product stock by
+function updateCurrentProduct(item, amount) {
+  var query = 'UPDATE products SET stock_quantity = stock_quantity -' 
+  + '\'' + amount + '\'' + 'WHERE product_name = ?';
+  connection.query(query, [item], 
+  function(err, res) {
+    if (err) throw err;
+  });
+};
+
+//Export functions
 module.exports = {
   queryData: queryData,
-  selectProduct: selectProduct
+  selectProduct: selectProduct,
+  updateCurrentProduct:updateCurrentProduct
 } 
