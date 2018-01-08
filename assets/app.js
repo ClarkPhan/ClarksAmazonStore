@@ -8,9 +8,17 @@ function prompt() {
   inquirer.prompt([
     {
       type: 'input',
-      message: 'Please enter product id: ',
+      message: 'Please enter product id:',
       name: 'product_id',
       validate: function validateID(name) {
+        return name !== '';
+      }
+    },
+    {
+      type: 'input',
+      message: 'How many units would you like to buy?',
+      name: 'units',
+      validate: function validateUnit(name) {
         return name !== '';
       }
     }
