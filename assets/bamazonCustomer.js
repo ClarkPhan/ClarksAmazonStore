@@ -42,15 +42,18 @@ function print(res) {
 
 // Print out specific product
 function getStockQuantity(id) {
+  var stock_quantity = 0;
   connection.query("SELECT * FROM products WHERE item_id =?", [id], function(err, res) {
     // Get stock quantity
-    var stock_quantity = res[0].stock_quantity;
+    stock_quantity = parseInt(res[0].stock_quantity);
     if (stock_quantity > 0) {
-      return res[0].stock_quantity;
+      console.log('Stock quantity: ' + stock_quantity);
     } else {
       console.log("Product out of stock!".red);
     }
   })
+  //#TODO GET STOCK QUANTITY OUTSIDE OF CONNECTION QUERY TO HERE 
+  return stock_quantity;
 }
 
 // Print out specific product info
@@ -61,21 +64,33 @@ function getItemInfo(id) {
   })
 }
 
-
 // Updates current product stock by
 function updateCurrentProduct(item, amount) {
-  var stock_quantity = getStockQuantity(item);
-  if (amount > stock_quantity) {
-    console.log("Insufficient Stock quantity!".red);
-    console.log("Stock available: " + stock_quantity);
-  }
-  var query = 'UPDATE products SET stock_quantity = stock_quantity -' 
-  + '\'' + amount + '\'' + 'WHERE item_id = ?';
-  connection.query(query, [item], 
-  function(err, res) {
-    if (err) throw err;
-  });
-};
+  connection.query("SELECT * FROM products WHERE item_id =?", [item], function(err, res) {
+    // Get stock quantity
+    var stock_quantity = parseInt(res[0].stock_quantity);
+    if (stock_quantity > 0) {
+      print(res);
+      console.log('Stock quantity: ' + stock_quantity);
+      console.log('Units purchased: ' + amount);
+      // If amount bought is more than what's in stock, display err msg
+      if (amount > stock_quantity) {
+        console.log("Insufficient Stock Quantity!".red);
+        return;
+      } else {
+        console.log('Updating stock..'.yellow);
+        var query = 'UPDATE products SET stock_quantity = stock_quantity -' 
+        + '\'' + amount + '\'' + 'WHERE item_id = ?';
+        connection.query(query, [item], 
+        function(err, res) {
+          if (err) throw err;
+        });
+      }
+    } else {
+      console.log("Product out of stock!".red);
+    }
+  })
+}
 
 //Export functions
 module.exports = {
