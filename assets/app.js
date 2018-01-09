@@ -10,7 +10,6 @@ function prompt() {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   bamazonCustomer.queryData();
-  console.log("");
   sleep(1000).then(() => {
     inquirer.prompt([
       {
@@ -37,12 +36,7 @@ function prompt() {
         return new Promise((resolve) => setTimeout(resolve, time));
       }
   
-      // Sleep for 1 second, then print out new item info
-      sleep(1000).then(() => {
-        bamazonCustomer.getItemInfo(res.product_id);
-      });
-  
-      // Sleep for 2 seconds, then prompt again.
+      // Sleep for 3 seconds, then prompt again.
       sleep(2000).then(() => {
         prompt();
       });
