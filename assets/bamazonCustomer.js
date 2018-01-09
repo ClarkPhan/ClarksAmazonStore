@@ -76,6 +76,7 @@ function updateCurrentProduct(item, amount) {
       // If amount bought is more than what's in stock, display err msg
       if (amount > stock_quantity) {
         console.log("Insufficient Stock Quantity!".red);
+        console.log('Retrieving products..'.green);
         return;
       } else {
         console.log('Updating stock..'.yellow);
